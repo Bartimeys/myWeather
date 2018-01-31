@@ -3,6 +3,8 @@ import {CITIES} from './mock-cities';
 import {WeatherModel} from './weather.model';
 import {HttpModule, Http, Response} from '@angular/http';
 import {ForecastModel} from './forecast.model';
+import {LocationModel} from './location.model';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class WeatherService {
@@ -48,7 +50,7 @@ export class WeatherService {
           const cityResult = res.json();
           const cityForecast = cityResult.list.slice(0, 4).map(obj => {
             const dateVar = (new Date(obj.dt_txt));
-            dateVar.setHours(dateVar.getHours() - 5)
+            dateVar.setHours(dateVar.getHours() - 5);
             return {
               date: dateVar,
               temp: obj.main.temp,
@@ -59,6 +61,24 @@ export class WeatherService {
         },
         msg => {
           reject('Error fetching forecast.');
+        }
+      );
+    });
+  }
+
+  getCurrentLocationWeather(): Promise<LocationModel> {
+    return new Promise((resolve, reject) => {
+      const lat = 12;
+      const lon = 35;
+      this.http.get(
+        this.apiRoot + '/weather?' + 'lat=' + lat + '&lon=' + lon + '&appid=' + this.appId)
+        .toPromise().then(
+        res => {
+          const originalReponse = res.json();
+          resolve(new LocationModel(originalReponse));
+        },
+        msg => {
+          reject('Error fetching data.');
         }
       );
     });

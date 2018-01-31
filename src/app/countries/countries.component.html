@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="jumbotron custom-jumbotron">
+    <div class="row">
+      <h3>Countries:</h3>
+      <hr>
+      <p *ngIf="loading">Loading...</p>
+      <p *ngIf="error">{{ errorMessage }}</p>
+      <ul *ngIf="!loading" class="list-group">
+        <li *ngFor="let city of cities"
+            class="list-group-item"
+            [ngClass]="{ selected: selectedCity === city }"
+            (click)="selectedCity=city">
+          {{ city.cityName }}:  The temperature is {{ city.temp }} ºC and the wind speed is {{ city.wind }} km/h
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<app-forecast
+  *ngIf="selectedCity"
+  [cityId]="selectedCity.cityId"
+  (dismissEvent)="selectedCity = undefined">
+</app-forecast>

@@ -1,0 +1,10 @@
+<h3>Current location info:</h3>
+
+<p *ngIf="!loading">
+  It's {{locationModel.weatherDescription}} in {{locationModel.locationName}} (temp {{locationModel.temperature}}, pressure
+  {{locationModel.pressure}}, humidity {{locationModel.humidity}})
+</p>
+
+<p *ngIf="loading">
+  Location info is not updated yet
+</p>
