@@ -68,19 +68,39 @@ export class WeatherService {
 
   getCurrentLocationWeather(): Promise<LocationModel> {
     return new Promise((resolve, reject) => {
-      const lat = 12;
-      const lon = 35;
-      this.http.get(
-        this.apiRoot + '/weather?' + 'lat=' + lat + '&lon=' + lon + '&appid=' + this.appId)
-        .toPromise().then(
-        res => {
-          const originalReponse = res.json();
-          resolve(new LocationModel(originalReponse));
-        },
-        msg => {
-          reject('Error fetching data.');
-        }
-      );
+      if (window.navigator && window.navigator.geolocation) {
+        window.navigator.geolocation.getCurrentPosition(
+          position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            console.log(lat, lon);
+            this.http.get(
+              this.apiRoot + '/weather?' + 'lat=' + lat + '&lon=' + lon + '&appid=' + this.appId)
+              .toPromise().then(
+              res => {
+                const originalReponse = res.json();
+                resolve(new LocationModel(originalReponse));
+              },
+              msg => {
+                reject('Error fetching data.');
+              }
+            );
+          },
+          error => {
+            switch (error.code) {
+              case 1:
+                console.log('Permission Denied');
+                break;
+              case 2:
+                console.log('Position Unavailable');
+                break;
+              case 3:
+                console.log('Timeout');
+                break;
+            }
+          }
+        );
+      }
     });
   }
 }
