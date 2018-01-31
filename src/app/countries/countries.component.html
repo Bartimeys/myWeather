@@ -1,23 +1,20 @@
-<div class="row">
-  <div class="jumbotron custom-jumbotron">
-    <div class="row">
-      <h3>Countries:</h3>
-      <hr>
-      <p *ngIf="loading">Loading...</p>
-      <p *ngIf="error">{{ errorMessage }}</p>
-      <ul *ngIf="!loading" class="list-group">
-        <li *ngFor="let city of cities"
-            class="list-group-item"
-            [ngClass]="{ selected: selectedCity === city }"
-            (click)="selectedCity=city">
-          {{ city.cityName }}:  The temperature is {{ city.temp }} ºC and the wind speed is {{ city.wind }} km/h
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-<app-forecast
-  *ngIf="selectedCity"
-  [cityId]="selectedCity.cityId"
-  (dismissEvent)="selectedCity = undefined">
-</app-forecast>
+<table class="weather-forecast-list__table">
+  <thead>Weather in Kiev</thead>
+  <tbody *ngIf="loading"><tr>Loading...</tr></tbody>
+  <tbody *ngIf="error"><tr>{{ errorMessage }}</tr></tbody>
+  <tbody *ngIf="!loading">
+  <tr class="weather-forecast-list__items" *ngFor="let city of cities"
+      [ngClass]="{ selected: selectedCity === city }"
+      (click)="selectedCity=city">
+    <td class="weather-forecast-list__item">{{city.dt_txt | date: 'dd/MM/yyyy'}}
+      <img [src]="'http://openweathermap.org/img/w/'+city.icon+'.png'" alt="forecast"></td>
+    <td class="weather-forecast-list__item">
+      <p class="weather-forecast-list__card">
+      <span class="weather-forecast-list__day">{{ city.temp_min - 273.15 | number}} °C</span><span
+      class="weather-forecast-list__night">{{city.temp_max - 273.15 | number}} °C</span>
+      <i class="weather-forecast-list__naturalPhenomenon">{{ city.description }}</i></p>
+      <p class="weather-forecast-list__card">{{ city.wind_speed }} m/s <br> clouds: {{city.clouds}} %, {{city.humidity}}  hpa</p></td>
+  </tr>
+  </tbody>
+
+</table>

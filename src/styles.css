@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+.weather-forecast-list__items {
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+.weather-forecast-list__item:first-of-type {
+  width: 40%;
+}
+.weather-forecast-list__item {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: left;
+  border-top: 1px solid #ddd;
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+}
+.weather-forecast-list__card {
+  margin-bottom: 0;
+}
+.weather-forecast-list__table {
+  width: 650px;
+  border-collapse: collapse;
+  font: 400 14px/1.4 Roboto,Arial,sans-serif;
+}
+.weather-forecast-list__card>.weather-forecast-list__day, .weather-forecast-list__card>.weather-forecast-list__night {
+  display: inline-block;
+  vertical-align: top;
+  min-width: 51px;
+  padding: 3px 5px;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+.weather-forecast-list__day {
+  background-color: #f0ad4e;
+  margin-right: 5px;
+}
+.weather-forecast-list__night {
+  background-color: #999;
+}
+.weather-forecast-list__naturalPhenomenon {
+  font-style: italic;
+}/* You can add global styles to this file, and also import other style files */
