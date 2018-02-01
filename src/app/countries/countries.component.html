@@ -6,7 +6,7 @@
 </p>
 <div class="example-container mat-elevation-z8" *ngIf="!loading">
 
-  <mat-table #table [dataSource]="dataSource"  *ngFor="let city of cities"
+  <mat-table #table *ngFor="let city of cities"
   [ngClass]="{ selected: selectedCity === city }"
   (click)="selectedCity=city">
 
