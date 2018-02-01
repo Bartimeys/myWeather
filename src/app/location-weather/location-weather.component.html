@@ -1,17 +1,22 @@
-<h3>Current location info:</h3>
-<table class="weather-forecast-list__table" *ngIf="!loading">
-  <tr class="weather-forecast-list__items">
-    <td class="weather-forecast-list__item">{{locationModel.date | date: 'dd/MM/yyyy'}}
-      <img [src]="'http://openweathermap.org/img/w/'+locationModel.weatherIcon+'.png'" alt="weather"></td>
-    <td class="weather-forecast-list__item"><p class="weather-forecast-list__card"><span
-      class="weather-forecast-list__day">{{locationModel.temperature_min-273.15}}°C</span><span
-      class="weather-forecast-list__night">{{locationModel.temperature_max-273.15}}°C</span>
-      <i class="weather-forecast-list__naturalPhenomenon">{{locationModel.weatherDescription}} in {{locationModel.locationName}}</i></p>
-      <p class="weather-forecast-list__card">{{locationModel.wind}} m/s clouds: {{locationModel.clouds}} %,
-        {{locationModel.humidity}} </p></td>
-  </tr>
-</table>
-
-<p *ngIf="loading">
-  Location info is not updated yet
-</p>
+<div class="example-container" >
+    <mat-card *ngIf="loading">
+        Location info is not updated yet or access denied
+    </mat-card>
+    </div>
+<div class="example-container" *ngIf="!loading">
+    <mat-card>
+        <table class="weather-forecast-list__table" *ngIf="!loading">
+            <tr class="weather-forecast-list__items">
+              <td class="weather-forecast-list__item">
+                  <span class="m-15">{{locationModel.locationName}}</span>
+                <img [src]="'http://openweathermap.org/img/w/'+locationModel.weatherIcon+'.png'" alt="weather"></td>
+              <td class="weather-forecast-list__item"><p class="weather-forecast-list__card"><span
+                class="weather-forecast-list__day">{{locationModel.temperature_min-273.15}}°C</span><span
+                class="weather-forecast-list__night">{{locationModel.temperature_max-273.15}}°C</span>
+                <i class="weather-forecast-list__naturalPhenomenon">{{locationModel.weatherDescription}}</i></p>
+                <p class="weather-forecast-list__card">{{locationModel.wind}} m/s clouds: {{locationModel.clouds}} %,
+                  {{locationModel.humidity}} </p></td>
+            </tr>
+          </table>
+    </mat-card>
+</div>

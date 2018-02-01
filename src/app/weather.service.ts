@@ -3,7 +3,7 @@ import {CITIES} from './mock-cities';
 import {WeatherModel} from './weather.model';
 import {HttpModule, Http, Response} from '@angular/http';
 import {LocationModel} from './location.model';
-import {forEach} from '@angular/router/src/utils/collection';
+import {Observable} from 'rxjs/Rx';
 
 @Injectable()
 export class WeatherService {
@@ -12,32 +12,35 @@ export class WeatherService {
   appId = '23b63825187c61b018c0b9b735a2d308';
 
   constructor(private http: Http) {
+    Observable.interval(2000 * 60).subscribe(x => {
+      this.getCurrentCitiesWeather();
+      this.getCurrentLocationWeather();
+    });
   }
 
   getCurrentCitiesWeather(): Promise<WeatherModel[]> {
     // return Promise.resolve(CITIES);
+    const cities = (CITIES.map(city => city.name)).join(',');
     return new Promise((resolve, reject) => {
-      const citiesIds = (CITIES.map(city => city.city_id)).join(',');
       this.http.get(
-        this.apiRoot + 'forecast?q=London&appid=' + this.appId)
+        this.apiRoot + 'weather?q='+ cities +'&appid=' + this.appId)
         .toPromise().then(
         res => {
-          const citiesResultList = res.json().list;
+          console.log(CITIES);
+          const citiesResultList = res.json();
           const citiesPromiseResult: WeatherModel[] = [];
-          for (let i = 0; i < citiesResultList.length; i++) {
             citiesPromiseResult.push(
               new WeatherModel(
-                citiesResultList[i].clouds.all,
-                citiesResultList[i].dt_txt,
-                citiesResultList[i].main.humidity,
-                citiesResultList[i].main.temp_max,
-                citiesResultList[i].main.temp_min,
-                citiesResultList[i].weather[0].description,
-                citiesResultList[i].weather[0].icon,
-                citiesResultList[i].weather[0].main,
-                citiesResultList[i].wind.deg,
-                citiesResultList[i].wind.speed));
-          }
+                citiesResultList.clouds.all,
+                citiesResultList.name,
+                citiesResultList.main.humidity,
+                citiesResultList.main.temp_max,
+                citiesResultList.main.temp_min,
+                citiesResultList.weather[0].description,
+                citiesResultList.weather[0].icon,
+                citiesResultList.weather[0].main,
+                citiesResultList.wind.deg,
+                citiesResultList.wind.speed));
           console.log(citiesPromiseResult);
           // console.log(citiesResultList);
           resolve(citiesPromiseResult);
@@ -50,6 +53,7 @@ export class WeatherService {
   }
 
   getCurrentLocationWeather(): Promise<LocationModel> {
+
     return new Promise((resolve, reject) => {
       if (window.navigator && window.navigator.geolocation) {
         window.navigator.geolocation.getCurrentPosition(
@@ -85,5 +89,8 @@ export class WeatherService {
       }
     });
   }
+
+  
+
 }
 

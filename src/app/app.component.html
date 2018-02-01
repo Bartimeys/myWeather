@@ -1,14 +1,14 @@
-<div class="container">
-  <div class="row">
-    <div class="col-xs-6">
-      <h1>OpenWeather App</h1>
-    </div>
-    <div class="col-xs-6" align="right">
-      <img src="../assets/img/googleweather.gif" class="img-responsive app-icon-img"/>
-    </div>
-  </div>
-  <app-countries></app-countries>
-  <app-location-weather></app-location-weather>
-</div>
-
+<mat-tab-group>
+  <mat-tab label="Weather in Kiev">
+    <app-countries></app-countries>
+  </mat-tab>
+  <mat-tab label="Current location info:">
+    <app-location-weather></app-location-weather>
+  </mat-tab>
+  <mat-tab disabled>
+      <ng-template mat-tab-label>
+          <img src="../assets/img/googleweather.gif" class="img-responsive app-icon-img"/>
+      </ng-template>
+    </mat-tab>
+</mat-tab-group>
 

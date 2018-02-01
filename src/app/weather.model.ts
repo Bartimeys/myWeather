@@ -1,6 +1,6 @@
 export class WeatherModel {
   constructor(public clouds: number,
-              public dt_txt: number,
+              public name: string,
               public humidity: number,
               public temp_max: number,
               public temp_min: number,

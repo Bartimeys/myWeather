@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { WeatherService } from '../weather.service';
 import {WeatherModel} from '../weather.model';
+import {MatTableDataSource, MatPaginator} from '@angular/material';
+// Import RxJs required methods
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Component({
   selector: 'app-countries',
@@ -15,11 +19,16 @@ export class CountriesComponent implements OnInit {
   error =  false;
   errorMessage = '';
   cities: WeatherModel[];
+  displayedColumns = ['date', 'main'];
 
   constructor(private currentWeatherService: WeatherService) { }
 
   ngOnInit() {
-    this.getCurrentWeather();
+      this.getCurrentWeather();
+  }
+
+  ngAfterViewInit() {
+    console.log(this.getCurrentWeather());
   }
 
   getCurrentWeather() {
@@ -37,3 +46,4 @@ export class CountriesComponent implements OnInit {
   }
 
 }
+

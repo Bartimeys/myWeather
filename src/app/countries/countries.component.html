@@ -1,20 +1,36 @@
-<table class="weather-forecast-list__table">
-  <thead>Weather in Kiev</thead>
-  <tbody *ngIf="loading"><tr>Loading...</tr></tbody>
-  <tbody *ngIf="error"><tr>{{ errorMessage }}</tr></tbody>
-  <tbody *ngIf="!loading">
-  <tr class="weather-forecast-list__items" *ngFor="let city of cities"
-      [ngClass]="{ selected: selectedCity === city }"
-      (click)="selectedCity=city">
-    <td class="weather-forecast-list__item">{{city.dt_txt | date: 'dd/MM/yyyy'}}
-      <img [src]="'http://openweathermap.org/img/w/'+city.icon+'.png'" alt="forecast"></td>
-    <td class="weather-forecast-list__item">
-      <p class="weather-forecast-list__card">
-      <span class="weather-forecast-list__day">{{ city.temp_min - 273.15 | number}} °C</span><span
-      class="weather-forecast-list__night">{{city.temp_max - 273.15 | number}} °C</span>
-      <i class="weather-forecast-list__naturalPhenomenon">{{ city.description }}</i></p>
-      <p class="weather-forecast-list__card">{{ city.wind_speed }} m/s <br> clouds: {{city.clouds}} %, {{city.humidity}}  hpa</p></td>
-  </tr>
-  </tbody>
+<p>
+  <span *ngIf="loading">Loading...</span>
+</p>
+<p>
+  <span *ngIf="error">{{ errorMessage }}</span>
+</p>
+<div class="example-container mat-elevation-z8" *ngIf="!loading">
 
-</table>
+  <mat-table #table [dataSource]="dataSource"  *ngFor="let city of cities"
+  [ngClass]="{ selected: selectedCity === city }"
+  (click)="selectedCity=city">
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef class="weather-forecast-list__item">
+        <span class="m-15">{{city.name}}</span>
+        <img [src]="'http://openweathermap.org/img/w/'+city.icon+'.png'" alt="forecast"></mat-header-cell>
+    </ng-container>
+
+    <!-- Main Column -->
+    <ng-container matColumnDef="main">
+      <mat-header-cell *matHeaderCellDef class="weather-forecast-list__item"> 
+        <p class="weather-forecast-list__card">
+          <span class="weather-forecast-list__day">{{ city.temp_min - 273.15 | number}} °C</span><span
+          class="weather-forecast-list__night">{{city.temp_max - 273.15 | number}} °C</span>
+          <i class="weather-forecast-list__naturalPhenomenon">{{ city.description }}</i></p>
+          <p class="weather-forecast-list__card">{{ city.wind_speed }} m/s <br> clouds: {{city.clouds}} %, {{city.humidity}}  hpa</p>
+      </mat-header-cell>
+    </ng-container>
+    
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    
+  </mat-table>
+</div>
